@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Chat</title>
+
+    <style>
+            .chat {
+                width: 100%;
+            }
+
+            .chat__messages {
+                height: 300px;
+                max-height: 300px;
+                overflow-y: scroll;
+                border: 1px solid #eee;
+                border-bottom: 0;
+            }
+
+            .chat__message {
+                padding: 20px;
+            }
+
+            .chat__message:nth-child(odd) {
+                background-color: #eee;
+            }
+
+            .chat__input {
+                width: 100%;
+                border-color: #eee;
+                font: inherit;
+                padding: 20px;
+                outline: none;
+            }
+
+            .chat__send {
+                border: 0;
+                border: 1px solid #eee;
+                border-left: 0;
+                background: #fff;
+                width: 100px;
+                cursor: pointer;
+                font: inherit;
+                outline: none;
+            }
+
+            .chat__people {
+                padding: 20px;
+                border: 1px solid #eee;
+                border-top: 0;
+            }
+        </style>
+  </head>
+  <body>
+
+    <script src="https://unpkg.com/vue"></script>
+
+    <script>
+      let socket = new WebSocket('ws://localhost:8070')
+    </script>
+  </body>
+</html>
