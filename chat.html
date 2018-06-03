@@ -53,22 +53,78 @@
   </head>
   <body>
 
+    <div id="app">
+      <chat></chat>
+    </div>
+
     <script src="https://unpkg.com/vue"></script>
 
     <script>
       let socket = new WebSocket('ws://localhost:8070')
 
-      setTimeout(() => {
-        socket.send(JSON.stringify({
-        event: 'joined',
-        data: {
-          user: {
-            id: 1,
-            name: 'Elijah'
-          }
+      let Message = {
+
+        template: `
+            <div class="chat__message">
+                <strong>Elijah</strong>: Hi
+            </div>
+        `
+      }
+
+      let Messages = {
+        components: {
+          'message': Message
+        },
+
+        template: `
+          <div class="chat__messages">
+            <message></message>
+          </div>
+        `
+      }
+
+      let MessageForm = {
+        template: `
+        <form action="#">
+            <textarea class="chat__input" placeholder="Type your message"></textarea>
+        </form>
+        `
+      }
+
+      let People = {
+        template: `
+        <div class="chat__people">
+          People online: 5
+          <ul>
+              <li>Elijah</li>
+          </ul>
+        </div>
+        `
+      }
+
+      let Chat = {
+        components: {
+          'messages': Messages,
+          'message-form': MessageForm,
+          'people': People
+        },
+
+        template: `
+          <div class="chat">
+            <messages></messages>
+            <message-form></message-form>
+            <people></people>
+          </div>
+        `
+      }
+
+      new Vue({
+        el: '#app',
+        components: {
+          'chat': Chat
         }
-      }))
-      },2000)
+      })
+
     </script>
   </body>
 </html>
