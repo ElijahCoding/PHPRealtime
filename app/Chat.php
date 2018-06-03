@@ -10,6 +10,8 @@ class Chat implements MessageComponentInterface
 {
     protected $clients;
 
+    protected $users;
+
     public function onOpen(ConnectionInterface $connection)
     {
       $this->clients[$connection->resourceId] = $connection;
@@ -17,7 +19,9 @@ class Chat implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $connection, $message)
     {
+      $payload = json_decode($message);
 
+      $this->users[$connection->resourceId] = $payload->data->user;
     }
 
     public function onClose(ConnectionInterface $connection)
