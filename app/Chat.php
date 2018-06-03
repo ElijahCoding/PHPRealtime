@@ -9,7 +9,7 @@ use Ratchet\MessageComponentInterface;
 class Chat implements MessageComponentInterface
 {
     use ChatEventsTrait;
-    
+
     protected $clients;
 
     protected $users;
@@ -30,6 +30,14 @@ class Chat implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $connection)
     {
+      foreach ($this->clients as $client) {
+        $client->send(json_encode([
+          'event' => 'left',
+          'data' => [
+            'user' => $this->users[$connection->resourceId]
+          ]
+        ]));
+      }
       unset($this->client[$connection->resourceId]);
     }
 
