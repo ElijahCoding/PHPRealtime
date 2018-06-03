@@ -3,10 +3,11 @@
 namespace App;
 
 use Exception;
+use App\Socket\SocketAbstract;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
-class Chat implements MessageComponentInterface
+class Chat extends SocketAbstract implements MessageComponentInterface
 {
     use ChatEventsTrait;
 

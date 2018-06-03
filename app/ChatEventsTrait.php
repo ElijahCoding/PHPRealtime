@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UserJoined;
 use Ratchet\ConnectionInterface;
 
 trait ChatEventsTrait
@@ -12,13 +13,6 @@ trait ChatEventsTrait
 
     $this->users[$connection->resourceId] = $user;
 
-    foreach ($this->clients as $client) {
-      $client->send(json_encode([
-        'event' => 'joined',
-        'data' => [
-          'user' => $payload->data->user
-        ]
-      ]));
-    }
+     $this->broadcast(new UserJoined($user))->toAll();
   }
 }
