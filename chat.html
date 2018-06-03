@@ -103,6 +103,13 @@
       }
 
       let Chat = {
+        data () {
+          return {
+            name: '',
+            joined: false
+          }
+        },
+
         components: {
           'messages': Messages,
           'message-form': MessageForm,
@@ -111,11 +118,33 @@
 
         template: `
           <div class="chat">
-            <messages></messages>
-            <message-form></message-form>
-            <people></people>
+            <template v-if="!joined">
+              <form action="#" @submit.prevent="join">
+                <label for="name">
+                  Enter your name:
+                  <input type="text" id="name" v-model.trim="name">
+                  <button type="submit">Join chat</button>
+                </label>
+              </form>
+            </template>
+
+            <template v-else>
+              <messages></messages>
+              <message-form></message-form>
+              <people></people>
+            </template>
           </div>
-        `
+        `,
+
+        methods: {
+          join () {
+            if (!this.name) {
+              return;
+            }
+            
+            this.joined = true
+          }
+        }
       }
 
       new Vue({
