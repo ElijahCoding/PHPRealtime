@@ -94,20 +94,32 @@
       }
 
       let People = {
+        data () {
+          return {
+            users: []
+          }
+        },
+
         template: `
         <div class="chat__people">
-          People online: 5
+          People online: {{ users.length }}
           <ul>
-              <li>Elijah</li>
+              <li v-for="user in users">{{ user.name }}</li>
           </ul>
         </div>
         `,
 
         mounted () {
-          bus.$on('joined', (data) => {
-            console.log(data)
+          bus.$on('joined', (payload) => {
+            this.addUser(payload.user)
           })
-        }
+        },
+
+        methods: {
+          addUser (user) {
+            this.users.unshift(user)
+          }
+        },
       }
 
       let Chat = {
