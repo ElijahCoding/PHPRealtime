@@ -18,6 +18,8 @@ class Broadcast
 
   public function toAll()
   {
-    echo 'broadcast to all';
+    foreach ($this->clients as $client) {
+      $client->send($this->event);
+    }
   }
 }
