@@ -6,8 +6,17 @@ use Ratchet\ConnectionInterface;
 
 trait ChatEventsTrait
 {
-  protected function handleJoined(ConnectionInterface $connection, $message)
+  protected function handleJoined(ConnectionInterface $connection, $payload)
   {
-    $this->users[$connection->resourceId] = $payload->data->user;
+    $user = $payload->data->user;
+
+    $this->users[$connection->resourceId] = $user;
+
+    foreach ($this->clients as $client) {
+      $client->send(json_encode([
+        'event' => 'joined',
+        'data' => $payload->data->user
+      ]));
+    }
   }
 }

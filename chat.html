@@ -60,6 +60,8 @@
     <script src="https://unpkg.com/vue"></script>
 
     <script>
+      let bus = new Vue()
+
       let socket = new WebSocket('ws://localhost:8070')
 
       let Message = {
@@ -99,7 +101,13 @@
               <li>Elijah</li>
           </ul>
         </div>
-        `
+        `,
+
+        mounted () {
+          bus.$on('joined', (data) => {
+            console.log(data)
+          })
+        }
       }
 
       let Chat = {
@@ -141,8 +149,25 @@
             if (!this.name) {
               return;
             }
-            
+
+            socket.send(JSON.stringify({
+              event: 'joined',
+              data: {
+                  user: {
+                      id: Date.now(),
+                      name: this.name
+                  }
+              }
+            }))
+
             this.joined = true
+          }
+        },
+
+        mounted () {
+          socket.onmessage = (e) => {
+            let data = JSON.parse(e.data)
+            bus.$emit(data.event, data.data)
           }
         }
       }
