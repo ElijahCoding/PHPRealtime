@@ -114,6 +114,10 @@
             this.addUser(payload.user)
           })
 
+          bus.$on('users', (payload) => {
+            this.users = payload
+          })
+
           bus.$on('left', (payload) => {
             this.removeUser(payload.user)
           })
