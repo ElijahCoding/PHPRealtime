@@ -86,11 +86,36 @@
       }
 
       let MessageForm = {
+        data () {
+          return {
+            body: ''
+          }
+        },
+
         template: `
         <form action="#">
-            <textarea class="chat__input" placeholder="Type your message"></textarea>
+            <textarea v-model="body"
+            class="chat__input"
+            placeholder="Type your message"
+            @keydown="handleInput"
+            ></textarea>
         </form>
-        `
+        `,
+
+        methods: {
+          handleInput (e) {
+            if (e.keyCode === 13 && e.shiftKey === false) {
+              e.preventDefault();
+              this.send()
+            }
+          },
+
+          send () {
+            let payload = {
+              
+            }
+          }
+        }
       }
 
       let People = {
@@ -115,11 +140,11 @@
           })
 
           bus.$on('users', (payload) => {
-            this.users = payload
+              this.users = payload
           })
 
           bus.$on('left', (payload) => {
-            this.removeUser(payload.user)
+              this.removeUser(payload.user)
           })
         },
 
